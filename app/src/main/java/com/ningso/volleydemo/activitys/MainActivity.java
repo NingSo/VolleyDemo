@@ -19,6 +19,7 @@ import com.ningso.volleydemo.Utils.ILog;
 import com.ningso.volleydemo.app.VolleyApp;
 import com.ningso.volleydemo.toolbox.BitmapCache;
 
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -62,39 +63,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getStringRequest() {
-        apiUrl = "http://www.imooc.com/api/teacher?";
+        apiUrl = "http://www.imooc.com/api/teacher";
         //正常的http://www.imooc.com/api/teacher?type=4&num=10
+        //String uri = String.format("http://somesite.com/some_endpoint.php?param1=%1$s&param2=%2$s",num1,num2);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, apiUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                ILog.d(response.toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                ILog.e(error.getMessage());
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("type", "4");
-                map.put("num", "10");
-                return map;
-            }
-        };
-        VolleyApp.getInstance().addToRequestQueue(stringRequest);
-    }
-
-    @OnClick(R.id.json_request)
-    public void getJsonRequest() {
-        apiUrl = "http://www.imooc.com/api/teacher";
-        Uri.Builder builder = Uri.parse(apiUrl).buildUpon();
-        builder.appendQueryParameter("type", "4");
-        builder.appendQueryParameter("num", "10");
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(apiUrl, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
                 ILog.d(response.toString());
                 test.setText(response.toString());
             }
@@ -106,10 +80,62 @@ public class MainActivity extends AppCompatActivity {
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
+                //设置需要post的参数
+                Map<String, String> mapParams = new HashMap<String, String>();
+                mapParams.put("type", "4");
+                mapParams.put("num", "10");
+                return mapParams;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Accept", "application/json");
+                headers.put("Content-Type", "application/json; charset=UTF-8");
+                return headers;
+            }
+        };
+        VolleyApp.getInstance().addToRequestQueue(stringRequest);
+    }
+
+    @OnClick(R.id.json_request)
+    public void getJsonRequest() {
+        apiUrl = "http://www.imooc.com/api/teacher";
+        Uri.Builder builder = Uri.parse(apiUrl).buildUpon();
+        builder.appendQueryParameter("type", "4");
+        builder.appendQueryParameter("num", "10");
+
+        Map<String, String> mapParams = new HashMap<String, String>();
+        mapParams.put("type", "4");
+        mapParams.put("num", "10");
+        JSONObject jsonObject = new JSONObject(mapParams);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(apiUrl, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                ILog.d(response.toString());
+                test.setText(response.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ILog.e(error.getMessage() + error.getCause());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("type", "4");
                 map.put("num", "10");
                 return map;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Accept", "application/json");
+                headers.put("Content-Type", "application/json; charset=UTF-8");
+                return headers;
             }
         };
         VolleyApp.getInstance().addToRequestQueue(jsonObjectRequest);
