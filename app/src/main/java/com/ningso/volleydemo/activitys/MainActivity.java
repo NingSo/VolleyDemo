@@ -16,6 +16,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.ningso.volleydemo.R;
 import com.ningso.volleydemo.Utils.ILog;
+import com.ningso.volleydemo.app.Constact;
 import com.ningso.volleydemo.app.VolleyApp;
 import com.ningso.volleydemo.toolbox.BitmapCache;
 
@@ -66,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
         apiUrl = "http://www.imooc.com/api/teacher";
         //正常的http://www.imooc.com/api/teacher?type=4&num=10
         //String uri = String.format("http://somesite.com/some_endpoint.php?param1=%1$s&param2=%2$s",num1,num2);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, apiUrl, new Response.Listener<String>() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constact.CDN_API_PREFIX + "/message/apps", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 ILog.d(response.toString());
@@ -82,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 //设置需要post的参数
                 Map<String, String> mapParams = new HashMap<String, String>();
-                mapParams.put("type", "4");
-                mapParams.put("num", "10");
+                mapParams.put("channel", "tifen");
+                mapParams.put("pkg", "com.yeuxue.tifenapp");
                 return mapParams;
             }
 
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         };
         VolleyApp.getInstance().addToRequestQueue(stringRequest);
     }
+
 
     @OnClick(R.id.json_request)
     public void getJsonRequest() {

@@ -1,11 +1,11 @@
-package com.ningso.volleydemo.model;
+package com.ningso.volleydemo.entity;
 
 /**
  * Created by NingPingPing on 2015/6/9.
  */
 public class TeachBean {
 
-    /**
+    /** http://www.imooc.com/api/teacher?type=4&num=10
      * picBig : http://img.mukewang.com/5518c3d7000175af06000338.jpg
      * learner : 15051
      * name : 细说Java多线程之内存可见性

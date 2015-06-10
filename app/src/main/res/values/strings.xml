@@ -3,5 +3,5 @@
     <string name="app_name">VolleyDemo</string>
     <string name="generic_server_down">服务器连接超时</string>
     <string name="no_internet">连接网络失败</string>
-    <string name="generic_error">类错误</string>
+    <string name="generic_error">未知错误</string>
 </resources>
