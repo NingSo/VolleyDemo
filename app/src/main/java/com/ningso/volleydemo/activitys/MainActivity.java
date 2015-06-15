@@ -2,25 +2,25 @@ package com.ningso.volleydemo.activitys;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
+import com.ningso.volleydemo.Fragments.ImageLoadFragment;
+import com.ningso.volleydemo.Fragments.ImageRequestFragment;
+import com.ningso.volleydemo.Fragments.JsonObjectFragment;
+import com.ningso.volleydemo.Fragments.NetWorkImageFragment;
+import com.ningso.volleydemo.Fragments.StringRequestFragment;
 import com.ningso.volleydemo.R;
 import com.ningso.volleydemo.Utils.ILog;
-import com.ningso.volleydemo.app.Constact;
 import com.ningso.volleydemo.app.VolleyApp;
-import com.ningso.volleydemo.toolbox.BitmapCache;
 
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -34,10 +34,16 @@ import butterknife.OnClick;
  * Created by NingPingPing on 2015/6/9.
  */
 public class MainActivity extends AppCompatActivity {
-    @InjectView(R.id.test)
-    TextView test;
-    @InjectView(R.id.networkimage)
-    Button networkimage;
+
+
+    @InjectView(R.id.bt_stringrequest)
+    Button btStringrequest;
+    @InjectView(R.id.bt_imageruquest)
+    Button btImageruquest;
+    @InjectView(R.id.bt_imageload)
+    Button btImageload;
+    @InjectView(R.id.bt_networkimage)
+    Button btNetworkimage;
     @InjectView(R.id.json_request)
     Button jsonRequest;
     @InjectView(R.id.string_request)
@@ -50,55 +56,64 @@ public class MainActivity extends AppCompatActivity {
     Button multipartRequest;
     @InjectView(R.id.ssl_connection)
     Button sslConnection;
-    @InjectView(R.id.net_image)
-    ImageView netImage;
-
     private String apiUrl;
+    private FragmentTransaction fragmentTransaction;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
         ButterKnife.inject(this);
-        getStringRequest();
     }
 
-    private void getStringRequest() {
-        apiUrl = "http://www.imooc.com/api/teacher";
-        //正常的http://www.imooc.com/api/teacher?type=4&num=10
-        //String uri = String.format("http://somesite.com/some_endpoint.php?param1=%1$s&param2=%2$s",num1,num2);
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constact.CDN_API_PREFIX + "/message/apps", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                ILog.d(response.toString());
-                test.setText(response.toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                ILog.e(error.getMessage());
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                //设置需要post的参数
-                Map<String, String> mapParams = new HashMap<String, String>();
-                mapParams.put("channel", "tifen");
-                mapParams.put("pkg", "com.yeuxue.tifenapp");
-                return mapParams;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Accept", "application/json");
-                headers.put("Content-Type", "application/json; charset=UTF-8");
-                return headers;
-            }
-        };
-        VolleyApp.getInstance().addToRequestQueue(stringRequest);
+    @OnClick({R.id.bt_stringrequest, R.id.bt_imageruquest, R.id.bt_imageload, R.id.bt_networkimage, R.id.json_request,})
+    public void setVolleySelfObjectClick(View view) {
+        int vId = view.getId();
+        String tag = null;
+        Fragment fragment = null;
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        switch (vId) {
+            case R.id.bt_stringrequest:
+                tag = StringRequestFragment.class.getSimpleName();
+                fragment = getSupportFragmentManager().findFragmentByTag(tag);
+                if (fragment == null) {
+                    fragment = new StringRequestFragment();
+                }
+                break;
+            case R.id.bt_imageruquest:
+                tag = ImageRequestFragment.class.getSimpleName();
+                fragment = getSupportFragmentManager().findFragmentByTag(tag);
+                if (fragment == null) {
+                    fragment = new ImageRequestFragment();
+                }
+                break;
+            case R.id.bt_imageload:
+                tag = ImageLoadFragment.class.getSimpleName();
+                fragment = getSupportFragmentManager().findFragmentByTag(tag);
+                if (fragment == null) {
+                    fragment = new ImageLoadFragment();
+                }
+                break;
+            case R.id.bt_networkimage:
+                tag = NetWorkImageFragment.class.getSimpleName();
+                fragment = getSupportFragmentManager().findFragmentByTag(tag);
+                if (fragment == null) {
+                    fragment = new NetWorkImageFragment();
+                }
+                break;
+            case R.id.json_request:
+                tag = JsonObjectFragment.class.getSimpleName();
+                fragment = getSupportFragmentManager().findFragmentByTag(tag);
+                if (fragment == null) {
+                    fragment = new JsonObjectFragment();
+                }
+                break;
+        }
+        getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment, tag).commit();
     }
+
+
 
 
     @OnClick(R.id.json_request)
@@ -117,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 ILog.d(response.toString());
-                test.setText(response.toString());
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -161,12 +176,12 @@ public class MainActivity extends AppCompatActivity {
 //        VolleyApp.getInstance().addToRequestQueue(imageRequest);
 //    }
 
-    @OnClick(R.id.networkimage)
-    public void getImageLoadingRequest() {
-        String imageUrl = "http://img.mukewang.com/552640c300018a9606000338.jpg";
-        ImageLoader imageLoader = new ImageLoader(VolleyApp.getInstance().getRequestQueue(), new BitmapCache());
-        ImageLoader.ImageListener listener = ImageLoader.getImageListener(netImage, R.mipmap.tifen_logo, R.mipmap.tifen_icon);
-        imageLoader.get(imageUrl, listener);
-    }
+//    @OnClick(R.id.networkimage)
+//    public void getImageLoadingRequest() {
+////        String imageUrl = "http://img.mukewang.com/552640c300018a9606000338.jpg";
+////        ImageLoader imageLoader = new ImageLoader(VolleyApp.getInstance().getRequestQueue(), new BitmapCache());
+////        ImageLoader.ImageListener listener = ImageLoader.getImageListener(netImage, R.mipmap.tifen_logo, R.mipmap.tifen_icon);
+////        imageLoader.get(imageUrl, listener);
+//    }
 
 }

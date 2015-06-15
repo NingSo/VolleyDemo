@@ -3,36 +3,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         tools:context=".MainActivity">
 
-        <TextView
-            android:id="@+id/test"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Medium"
-            android:layout_marginTop="@dimen/margin_large" />
-
-        <ImageView
-            android:id="@+id/net_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_large" />
-
         <Button
-            android:id="@+id/networkimage"
+            android:id="@+id/bt_stringrequest"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
             android:gravity="center"
             android:textAppearance="@android:style/TextAppearance.Small"
-            android:layout_below="@id/test"
+            android:text="StringRequest" />
+
+        <Button
+            android:id="@+id/bt_imageruquest"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:gravity="center"
+            android:textAppearance="@android:style/TextAppearance.Small"
+            android:text="ImageRequest" />
+
+        <Button
+            android:id="@+id/bt_imageload"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:gravity="center"
+            android:textAppearance="@android:style/TextAppearance.Small"
             android:text="ImageLoading" />
+
+        <Button
+            android:id="@+id/bt_networkimage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:gravity="center"
+            android:textAppearance="@android:style/TextAppearance.Small"
+            android:text="NetWorkImage" />
 
         <Button
             android:id="@+id/json_request"
@@ -40,7 +54,6 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAppearance="@android:style/TextAppearance.Small"
-            android:layout_below="@id/networkimage"
             android:text="JSONObjectRequest" />
 
         <Button
@@ -48,7 +61,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
-            android:layout_below="@id/json_request"
             android:gravity="center"
             android:textAppearance="@android:style/TextAppearance.Small"
             android:text="StringObjectRequest" />
@@ -58,7 +70,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
-            android:layout_below="@id/string_request"
             android:gravity="center"
             android:textAppearance="@android:style/TextAppearance.Small"
             android:text="GSON Request" />
@@ -68,7 +79,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
-            android:layout_below="@id/gson_response"
             android:gravity="center"
             android:textAppearance="@android:style/TextAppearance.Small"
             android:text="XML Request" />
@@ -78,7 +88,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
-            android:layout_below="@id/xml_response"
             android:gravity="center"
             android:textAppearance="@android:style/TextAppearance.Small"
             android:text="Multipart" />
@@ -88,10 +97,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
-            android:layout_below="@id/multipart_request"
             android:gravity="center"
             android:textAppearance="@android:style/TextAppearance.Small"
             android:text="SSL Connection" />
 
-    </RelativeLayout>
+    </LinearLayout>
 </ScrollView>

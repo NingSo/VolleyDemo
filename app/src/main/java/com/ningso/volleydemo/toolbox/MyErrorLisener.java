@@ -19,7 +19,6 @@ public class MyErrorLisener implements Response.ErrorListener {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        VolleyErrorHelper.getMessage(error, mContext);
-        ILog.e(error.getMessage());
+        ILog.e(VolleyErrorHelper.getMessage(error, mContext) + error.toString());
     }
 }
